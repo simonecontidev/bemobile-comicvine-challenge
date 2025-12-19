@@ -13,7 +13,10 @@ const robotoCondensed = Roboto_Condensed({
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={robotoCondensed.className}>
+      <body
+        className={robotoCondensed.className}
+        suppressHydrationWarning
+      >
         <LoadingProvider>
           <FavoritesProvider>
             <Header />

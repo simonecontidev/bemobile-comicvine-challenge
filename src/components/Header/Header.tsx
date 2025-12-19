@@ -44,7 +44,7 @@ export function Header() {
         </Link>
       </div>
 
-      {isLoading && <div className={styles.redLine} />}
+{isLoading && <div className={styles.redLine} />}
     </header>
   );
 }
