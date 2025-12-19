@@ -1,0 +1,72 @@
+.page{
+  width: 100%;
+}
+
+.hero{
+  display: grid;
+  grid-template-columns: 420px 1fr;
+  gap: 32px;
+  background: #000;
+  color: #fff;
+  padding: 48px var(--px);
+}
+
+.heroImage{
+  width: 100%;
+  height: auto;
+}
+
+.heroContent{
+  max-width: 640px;
+}
+
+.title{
+  margin: 0 0 16px;
+  font-size: 40px;
+  font-weight: 900;
+}
+
+.favoriteBtn{
+  background: var(--red);
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.description{
+  margin-top: 16px;
+  line-height: 1.5;
+}
+
+.comicsSection{
+  padding: 32px var(--px);
+}
+
+.comicsTitle{
+  margin: 0 0 16px;
+  font-weight: 900;
+}
+
+.comicsRow{
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+
+.comicCard{
+  min-width: 160px;
+  flex: 0 0 auto;
+}
+
+.comicCard img{
+  width: 100%;
+  display: block;
+}
+
+.comicTitle{
+  margin-top: 6px;
+  font-size: 13px;
+}
