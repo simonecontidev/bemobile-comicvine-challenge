@@ -2,6 +2,7 @@ import "./globals.css";
 import { Header } from "@/components/Header/Header";
 import { FavoritesProvider } from "@/features/favorites/FavoritesContext";
 import { LoadingProvider } from "@/features/loading/LoadingContext";
+import { FavoritesProvider } from "@/features/favorites/FavoritesContext";
 import { Roboto_Condensed } from "next/font/google";
 
 const robotoCondensed = Roboto_Condensed({
@@ -13,6 +14,13 @@ const robotoCondensed = Roboto_Condensed({
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
+      <body>
+        <FavoritesProvider>
+          <LoadingProvider>
+            <Header />
+            <main className="app-main">{children}</main>
+          </LoadingProvider>
+        </FavoritesProvider>
       <body
         className={robotoCondensed.className}
         suppressHydrationWarning
