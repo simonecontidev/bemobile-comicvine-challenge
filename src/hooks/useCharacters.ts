@@ -1,60 +1,67 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { Character } from "@/types/domain";
 import { listCharacters, searchCharacters } from "@/api/comicvine";
 import { useGlobalLoading } from "@/features/loading/LoadingContext";
 
-type UseCharactersResult = {
+type State = {
   items: Character[];
   total: number;
   isLoading: boolean;
   error: string | null;
 };
 
-export function useCharacters(query: string, debounceMs = 350): UseCharactersResult {
+/**
+ * useCharacters
+ * - Loads the initial list (50 items).
+ * - Search is debounced to reduce requests (rate limit friendly).
+ * - Also toggles a global loading indicator (header red line).
+ */
+export function useCharacters(query: string) {
   const { setLoading } = useGlobalLoading();
 
-  const [items, setItems] = useState<Character[]>([]);
-  const [total, setTotal] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [state, setState] = useState<State>({
+    items: [],
+    total: 0,
+    isLoading: true,
+    error: null,
+  });
 
   const q = useMemo(() => query.trim(), [query]);
+  const timer = useRef<number | null>(null);
 
   useEffect(() => {
-    let cancelled = false;
+    setState((s) => ({ ...s, isLoading: true, error: null }));
+    setLoading(true);
 
-    const t = setTimeout(() => {
-      async function run() {
-        setError(null);
-        setIsLoading(true);
-        setLoading(true);
+    if (timer.current) window.clearTimeout(timer.current);
 
-        try {
-          const res = q ? await searchCharacters(q, 50) : await listCharacters(50);
-          if (!cancelled) {
-            setItems(res.items);
-            setTotal(res.total);
-          }
-        } catch (e) {
-          if (!cancelled) setError(e instanceof Error ? e.message : "Unknown error");
-        } finally {
-          if (!cancelled) {
-            setIsLoading(false);
-            setLoading(false);
-          }
-        }
+    timer.current = window.setTimeout(async () => {
+      try {
+        const res = q ? await searchCharacters(q, 50) : await listCharacters(50);
+        setState({
+          items: res.items,
+          total: res.total,
+          isLoading: false,
+          error: null,
+        });
+      } catch (e) {
+        setState({
+          items: [],
+          total: 0,
+          isLoading: false,
+          error: e instanceof Error ? e.message : "Unknown error",
+        });
+      } finally {
+        setLoading(false);
       }
-
-      run();
-    }, debounceMs);
+    }, 350);
 
     return () => {
-      cancelled = true;
-      clearTimeout(t);
+      if (timer.current) window.clearTimeout(timer.current);
     };
-  }, [q, debounceMs, setLoading]);
+  }, [q, setLoading]);
 
-  return { items, total, isLoading, error };
+  return state;
 }

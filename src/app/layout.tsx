@@ -1,18 +1,27 @@
 import "./globals.css";
 import { Header } from "@/components/Header/Header";
-import { LoadingProvider } from "@/features/loading/LoadingContext";
 import { FavoritesProvider } from "@/features/favorites/FavoritesContext";
+import { LoadingProvider } from "@/features/loading/LoadingContext";
+import { Roboto_Condensed } from "next/font/google";
+
+const robotoCondensed = Roboto_Condensed({
+  subsets: ["latin"],
+  weight: ["300", "400", "700"],
+  display: "swap",
+});
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body>
-        <FavoritesProvider>
-          <LoadingProvider>
+      <body className={robotoCondensed.className}>
+        <LoadingProvider>
+          <FavoritesProvider>
             <Header />
-            <main className="app-main">{children}</main>
-          </LoadingProvider>
-        </FavoritesProvider>
+            <main className="page">
+              <div className="panel">{children}</div>
+            </main>
+          </FavoritesProvider>
+        </LoadingProvider>
       </body>
     </html>
   );

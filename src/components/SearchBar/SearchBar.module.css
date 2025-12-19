@@ -1,0 +1,67 @@
+.wrap{
+  width: 100%;
+  padding: 24px;
+  background: transparent;
+}
+
+/* row with underline */
+.row{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding-bottom: 8px;
+  border-bottom: 2px solid #000;
+}
+
+/* magnifier */
+.icon{
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon svg{
+  width: 16px;
+  height: 16px;
+  fill: #000;           /* nero come mock */
+  opacity: 0.7;
+  display: block;
+}
+
+/* input editor-style */
+.input{
+  flex: 1;
+  border: 0;
+  outline: 0;
+  background: transparent;
+
+  font-size: 16px;                
+  font-weight: 600;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+
+  font-family: inherit;          
+  color: #000;
+}
+
+/* PLACEHOLDER */
+.input::placeholder{
+  font-family: inherit;            
+  font-size: 16px;                 
+  font-weight: 400;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+
+  color: #AAAAAA;
+  opacity: 1;                    
+}
+
+/* results text */
+.results{
+  margin-top: 10px;
+  font-size: 12px;
+  color: #6f6f6f;
+}
