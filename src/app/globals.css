@@ -1,0 +1,26 @@
+*,
+*::before,
+*::after{
+  box-sizing: border-box;
+}
+
+html,
+body{
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+body{
+  background: #eeeeee;
+  color: #000;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+:root{
+  --red: #e62429;
+}
+
+.app-main{
+  width: 100%;
+}
