@@ -1,4 +1,3 @@
-// Replace src/hooks/useCharacters.ts with this
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";

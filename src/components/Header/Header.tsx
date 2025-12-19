@@ -1,11 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import styles from "./Header.module.css";
-import { useFavorites } from "@/features/favorites/FavoritesContext";
-
-export function Header() {
-  const { ids } = useFavorites();
 import Image from "next/image";
 import styles from "./Header.module.css";
 import { useFavorites } from "@/features/favorites/FavoritesContext";
@@ -20,14 +15,11 @@ export function Header() {
   return (
     <header className={styles.header}>
       <div className={styles.inner}>
-        <Link href="/" className={styles.logo} aria-label="Marvel">
-          <img src="/marvel-logo.svg" alt="Marvel" height={26} />
-        </Link>
-
-        <Link href="/favorites" className={styles.fav} aria-label="Favorites">
-          <img src="/heart.svg" alt="" aria-hidden="true" />
-          <span className={styles.badge}>{ids.size}</span>
-        <Link href="/" className={styles.logo} aria-label="Go to characters list">
+        <Link
+          href="/"
+          className={styles.logo}
+          aria-label="Go to characters list"
+        >
           <Image
             src="/Marvel-logo.svg"
             alt="Marvel"
@@ -52,11 +44,12 @@ export function Header() {
             aria-hidden="true"
           />
 
-          <span className={styles.count}>{count}</span>
+          {/* Use the class that exists in your CSS. Prefer .badge if present, fallback to .count if your CSS uses that name. */}
+          <span className={styles.badge ?? styles.count}>{count}</span>
         </Link>
       </div>
 
-{isLoading && <div className={styles.redLine} />}
+      {isLoading && <div className={styles.redLine} />}
     </header>
   );
 }

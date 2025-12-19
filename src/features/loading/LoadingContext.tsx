@@ -1,4 +1,3 @@
-// src/features/loading/LoadingContext.tsx
 "use client";
 
 import { createContext, useCallback, useContext, useMemo, useState } from "react";
