@@ -1,7 +1,6 @@
 .header{
   width: 100%;
   background: #000;
-  color: #fff;
 }
 
 .inner{
@@ -9,19 +8,18 @@
   display:flex;
   align-items:center;
   justify-content: space-between;
-  padding: 0 24px;
+  padding: 0 var(--px);
 }
 
 .logo{
-  font-weight: 900;
-  letter-spacing: 0.6px;
+  display:flex;
+  align-items:center;
 }
 
 .fav{
   display:flex;
   align-items:center;
-  gap: 10px;
-  font-weight: 800;
+  gap: 8px;
 }
 
 .badge{
@@ -29,6 +27,7 @@
   height: 22px;
   border-radius: 999px;
   background: var(--red);
+  color:#fff;
   display:flex;
   align-items:center;
   justify-content:center;
