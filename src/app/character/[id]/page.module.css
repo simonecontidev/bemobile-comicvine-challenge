@@ -1,0 +1,158 @@
+.wrap{
+  width: 100%;
+}
+
+.hero{
+  width: 100%;
+  background: #000;
+  color: #fff;
+  border-bottom: 0px solid rgba(255,255,255,0);
+  position: relative;
+}
+
+.hero::after{
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+
+  width: 48px;
+  height: 48px;
+
+  background: #fff; 
+  clip-path: polygon(100% 0, 0 100%, 100% 100%);
+}
+
+
+.heroInner{
+  width: 100%;
+  display: grid;
+  grid-template-columns: 520px 1fr 60px;
+  align-items: center;
+  min-height: 260px;     
+  padding: 0 24px;
+  gap: 28px;
+}
+
+.poster{
+  height: 220px;
+  border-radius: 0;
+  overflow: hidden;
+  background: #111;
+}
+
+.poster img{
+  width: 320px;
+  height: 320px;
+  object-fit: cover;
+  display: block;
+}
+
+.info{
+  max-width: 720px;
+}
+
+.name{
+  margin: 0 0 10px;
+  font-size: 42px;
+  font-weight: 900;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+}
+
+.desc{
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.85);
+  max-width: 520px;
+}
+
+.fav{
+  justify-self: end;
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  border: 0px solid rgba(255,255,255,0.18);
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.favIcon{
+  font-size: 22px;
+}
+
+.section{
+  width: 100%;
+  padding-top: 48px;
+  background: #f2f2f2;
+  padding: 26px 0 70px;
+}
+
+.sectionTitle{
+  margin: 0 0 18px;
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+}
+
+.boxed{
+  max-width: 1260px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Mobile */
+@media (max-width: 900px){
+
+  .boxed{
+    padding: 0;
+  }
+
+  .heroInner{
+    grid-template-columns: 1fr;
+    gap: 0;
+    padding: 0;
+  }
+
+  .poster{
+    width: 100vw;
+    height: 100vw; 
+    max-height: 393px;
+    border-radius: 0;
+    margin-left: calc(-50vw + 50%);
+    background: #000;
+  }
+
+  .poster img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .info{
+    padding: 18px 16px 0;
+    max-width: none;
+  }
+
+  .name{
+    font-size: 26px;
+    margin-bottom: 8px;
+  }
+
+  .desc{
+    font-size: 12px;
+    line-height: 1.6;
+    max-width: none;
+  }
+
+  /* cuore */
+  .fav{
+    margin: 12px 16px 0;
+    justify-self: start;
+  }
+}

@@ -1,0 +1,136 @@
+/* --- BASE --- */
+.card{
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background: #000;
+}
+
+.media,
+.img{
+  width: 100%;
+  height: 100%;
+}
+
+.img{
+  object-fit: cover;
+  display: block;
+}
+
+/* overlay bottom (black by default) */
+.overlay{
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  background: #000;
+  overflow: hidden; /* ✅ needed for the expanding fill */
+}
+
+/* red fill that expands DOWN from the top edge of the overlay */
+.overlay::before{
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+
+  height: 0%;
+  background: var(--red);
+  z-index: 0;
+
+  transition: height 180ms ease;
+}
+
+/* red line stays always red (like mock) */
+.redLine{
+  height: 4px;
+  background: var(--red);
+  position: relative;
+  z-index: 2; /* stays above the fill */
+}
+
+/* bottom content */
+.bottom{
+  position: relative;
+  z-index: 2; /* text + icon above the fill */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+}
+
+.name{
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.favBtn{
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  padding: 6px;
+}
+
+/* cut corner (ALWAYS cut: shows page/section bg) */
+.card::after{
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+
+  width: 18px;
+  height: 18px;
+
+  background: #f2f2f2; /* ✅ same as the section/page bg under the cards */
+  clip-path: polygon(100% 0, 0 100%, 100% 100%);
+
+  z-index: 3; /* always above the overlay fill */
+}
+
+/* --- ICONS --- */
+.favIcon,
+.favIconActive{
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+
+/* NON favorite: outline white */
+.favIcon{
+  filter: brightness(0) invert(1);
+  opacity: 0.95;
+}
+
+/* Favorite: solid red (on black) */
+.favIconActive{
+  filter: brightness(0) saturate(100%) invert(27%) sepia(89%)
+          saturate(6246%) hue-rotate(349deg) brightness(91%) contrast(93%);
+}
+
+/* On hover/focus the bar becomes red, so active icon switches to white */
+.card:hover .favIconActive,
+.card:focus-within .favIconActive{
+  filter: brightness(0) invert(1);
+}
+
+/* --- HOVER / FOCUS (LINE EXPANDS DOWN) --- */
+.card:hover .overlay::before,
+.card:focus-within .overlay::before{
+  height: 100%;
+}
+
+/* --- ACCESSIBILITY --- */
+@media (prefers-reduced-motion: reduce){
+  .overlay::before{
+    transition: none !important;
+  }
+}
