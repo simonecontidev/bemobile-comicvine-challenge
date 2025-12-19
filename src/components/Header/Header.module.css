@@ -1,5 +1,9 @@
-.header{
-  width: 100%;
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+
+  height: 64px;
   background: #000;
 }
 
@@ -20,12 +24,72 @@
   display:flex;
   align-items:center;
   gap: 8px;
+
+  display: flex;
+  align-items: center;
+
+  /* linea sottile come nel mock */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.badge{
-  min-width: 22px;
-  height: 22px;
-  border-radius: 999px;
+.inner {
+  width: 100%;
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 0 24px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Favorites */
+.fav {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.likeIcon{
+  width: 18px;
+  height: 18px;
+  display: block;
+  filter: brightness(0) saturate(100%) invert(27%) sepia(89%)
+          saturate(6246%) hue-rotate(349deg) brightness(91%) contrast(93%);
+  transform: translateY(1px);
+}
+
+/* cuore vuoto */
+.heart{
+  color: #fff;
+  font-size: 18px;
+  line-height: 1;
+  transform: translateY(1px);
+}
+
+.count {
+  font-size: 14px;
+  line-height: 1;
+  transform: translateY(1px);
+}
+
+/* loading line rossa */
+.redLine {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+
+  height: 4px;
   background: var(--red);
   color:#fff;
   display:flex;
@@ -33,4 +97,39 @@
   justify-content:center;
   font-size: 12px;
   font-weight: 900;
+}
+.heart svg { width:18px; height:18px; fill: var(--red); display:block; }
+
+
+/* mobile */
+@media (max-width: 480px) {
+  .inner {
+    padding: 0 14px;
+  }
+}
+.fav{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+/* base (cuore vuoto) */
+.heart{
+  color: #fff;
+  font-size: 18px;
+  line-height: 1;
+  transform: translateY(1px);
+}
+
+/* cuore pieno */
+.heartActive{
+  color: var(--red);
+}
+
+.count{
+  font-size: 14px;
+  line-height: 1;
 }

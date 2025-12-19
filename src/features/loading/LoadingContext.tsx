@@ -1,10 +1,12 @@
+// src/features/loading/LoadingContext.tsx
 "use client";
 
-import { createContext, useContext, useMemo, useState } from "react";
+import { createContext, useCallback, useContext, useMemo, useState } from "react";
 
 type LoadingContextValue = {
   isLoading: boolean;
-  setLoading: (v: boolean) => void;
+  start: () => void;
+  stop: () => void;
 };
 
 const LoadingContext = createContext<LoadingContextValue | null>(null);
@@ -12,13 +14,13 @@ const LoadingContext = createContext<LoadingContextValue | null>(null);
 export function LoadingProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(false);
 
-  const value = useMemo(
-    () => ({
-      isLoading,
-      setLoading: setIsLoading,
-    }),
-    [isLoading]
-  );
+  // Memoize actions so their identity stays stable across renders.
+  // This prevents effects that depend on start/stop from re-running
+  // when isLoading toggles.
+  const start = useCallback(() => setIsLoading(true), []);
+  const stop = useCallback(() => setIsLoading(false), []);
+
+  const value = useMemo(() => ({ isLoading, start, stop }), [isLoading, start, stop]);
 
   return <LoadingContext.Provider value={value}>{children}</LoadingContext.Provider>;
 }

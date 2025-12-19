@@ -1,60 +1,77 @@
+// Replace src/hooks/useCharacters.ts with this
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { Character } from "@/types/domain";
 import { listCharacters, searchCharacters } from "@/api/comicvine";
 import { useGlobalLoading } from "@/features/loading/LoadingContext";
 
-type UseCharactersResult = {
+type State = {
   items: Character[];
   total: number;
-  isLoading: boolean;
+  isLoading: boolean; // local skeleton
   error: string | null;
 };
 
-export function useCharacters(query: string, debounceMs = 350): UseCharactersResult {
-  const { setLoading } = useGlobalLoading();
+export function useCharacters(query: string) {
+  const { start, stop } = useGlobalLoading();
 
-  const [items, setItems] = useState<Character[]>([]);
-  const [total, setTotal] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [state, setState] = useState<State>({
+    items: [],
+    total: 0,
+    isLoading: true,
+    error: null,
+  });
 
   const q = useMemo(() => query.trim(), [query]);
+  const timer = useRef<number | null>(null);
+  const reqId = useRef(0);
 
   useEffect(() => {
-    let cancelled = false;
+    // Local loading starts immediately (skeleton), but global red line should wait
+    // until the actual request starts (after debounce).
+    setState((s) => ({ ...s, isLoading: true, error: null }));
 
-    const t = setTimeout(() => {
-      async function run() {
-        setError(null);
-        setIsLoading(true);
-        setLoading(true);
+    if (timer.current) window.clearTimeout(timer.current);
 
-        try {
-          const res = q ? await searchCharacters(q, 50) : await listCharacters(50);
-          if (!cancelled) {
-            setItems(res.items);
-            setTotal(res.total);
-          }
-        } catch (e) {
-          if (!cancelled) setError(e instanceof Error ? e.message : "Unknown error");
-        } finally {
-          if (!cancelled) {
-            setIsLoading(false);
-            setLoading(false);
-          }
-        }
+    const myReqId = ++reqId.current;
+
+    timer.current = window.setTimeout(async () => {
+      // Request starts now -> show global loading (red line)
+      start();
+
+      try {
+        const res = q ? await searchCharacters(q, 50) : await listCharacters(50);
+
+        // Ignore stale responses
+        if (myReqId !== reqId.current) return;
+
+        setState({
+          items: res.items,
+          total: res.total,
+          isLoading: false,
+          error: null,
+        });
+      } catch (e) {
+        if (myReqId !== reqId.current) return;
+
+        setState({
+          items: [],
+          total: 0,
+          isLoading: false,
+          error: e instanceof Error ? e.message : "Unknown error",
+        });
+      } finally {
+        // Only the latest request is allowed to stop global loading
+        if (myReqId === reqId.current) stop();
       }
-
-      run();
-    }, debounceMs);
+    }, 350);
 
     return () => {
-      cancelled = true;
-      clearTimeout(t);
+      if (timer.current) window.clearTimeout(timer.current);
+      // Don't stop global loading here; only stop in the latest request's finally.
     };
-  }, [q, debounceMs, setLoading]);
+  }, [q, start, stop]);
 
-  return { items, total, isLoading, error };
+  return state;
 }

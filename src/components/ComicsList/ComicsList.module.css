@@ -1,0 +1,60 @@
+.row{
+  display: flex;
+  gap: 22px;
+  overflow-x: auto;
+  padding-bottom: 14px;
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  scroll-snap-type: x mandatory;
+}
+.row::-webkit-scrollbar{
+  display: none;
+}
+
+.card{
+  flex: 0 0 160px;
+  scroll-snap-align: start;
+}
+
+.cover{
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  display:block;
+  background: #e9e9e9;
+  border: 1px solid #e3e3e3;
+}
+
+.meta{
+  margin-top: 10px;
+}
+
+.cardTitle{
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.year{
+  margin-top: 8px;
+  font-size: 12px;
+  color: #777;
+}
+
+/* Custom track like mock */
+.scrollbar{
+  height: 3px;
+  background: #d5d5d5;
+  margin-top: 14px;
+  overflow: hidden;
+}
+
+.scrollbarFill{
+  height: 100%;
+  width: 100%;
+  background: var(--red);
+  transform-origin: left center;
+  transform: scaleX(0);
+  transition: transform 80ms linear;
+}
