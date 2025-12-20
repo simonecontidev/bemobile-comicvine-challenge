@@ -13,7 +13,7 @@ import { getCharacter } from "@/api/comicvine";
 export function FavoritesClient() {
   const { ids } = useFavorites();
   const favIds = useMemo(() => Array.from(ids), [ids]);
-  const { setLoading } = useGlobalLoading();
+const { start, stop } = useGlobalLoading();
 
   const [items, setItems] = useState<Character[]>([]);
   const [q, setQ] = useState("");
@@ -32,7 +32,7 @@ export function FavoritesClient() {
       }
 
       setLocalLoading(true);
-      setLoading(true);
+      start()
 
       try {
         const results = await Promise.all(favIds.map((id) => getCharacter(id)));
@@ -42,7 +42,7 @@ export function FavoritesClient() {
       } finally {
         if (!cancelled) {
           setLocalLoading(false);
-          setLoading(false);
+          stop()
         }
       }
     }
@@ -51,7 +51,7 @@ export function FavoritesClient() {
     return () => {
       cancelled = true;
     };
-  }, [favIds, setLoading]);
+  }, [favIds, start, stop]);
 
   const filtered = useMemo(() => {
     const s = q.trim().toLowerCase();
